@@ -43,14 +43,17 @@ URL: https://github.com/stretchr/testify
 testcontainers-go – Allows integration testing using real Docker containers (e.g., running a real Postgres instance instead of mocking).
 URL: https://github.com/testcontainers/testcontainers-go
 
-
+10. Task File  - tool for executing tasks from a YAML file (alternative to Makefile)
 - We are building a mono repo, so we can keep frontend and backend in the same repo.
+-
 
 using npm
 ****Commands
 ➜  travel_application npm init -y
 curl -fsSL https://bun.sh/install | bash
 ➜  travel_application git:(main) ✗ bun add -D turbo typescript
+go mod init github.com/srauf24/go-boilerplate
+brew install go-task/tap/go-task
 
 ***Resources
 - standard go project layout https://github.com/golang-standards/project-layout
