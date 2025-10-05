@@ -1,59 +1,79 @@
-1. Framework / Routing
+# Notes for go-boilerplate backend
 
-Echo – Fast, minimalist web framework for routing, middleware, and error handling.
-URL: https://echo.labstack.com/
+This file contains a list of useful commands for working with the Go backend of the go-boilerplate project.
 
-2. PostgreSQL Driver
+## Dependencies
 
-pgx – Pure Go Postgres driver and toolkit. Can be used directly or through database/sql.
-URL: https://github.com/jackc/pgx
+To install or update dependencies, run the following command in the 'apps/backend' directory:
 
-3. Logging
+```bash
+go mod tidy
+```
 
-zerolog – Zero-allocation, structured logging library for high-performance Go applications.
-URL: https://github.com/rs/zerolog
+## Building
 
-4. Observability / Monitoring
+To build the project, run the following command in the 'apps/backend' directory:
 
-New Relic Go Agent – Provides instrumentation for Go apps, tracking performance, DB calls, and metrics.
-URL: https://github.com/newrelic/go-agent
+```bash
+go build ./...
+```
 
-5. Validation
+## Running the application
 
-validator (go-playground/validator) – Popular validation library for struct and field validation across handler layers.
-URL: https://github.com/go-playground/validator
+To run the application, use the following command in the 'apps/backend' directory:
 
-6. Configuration Management
+```bash
+go run ./cmd/go-boilerplate
+```
 
-koanf – Lightweight configuration library (alternative to Viper). Supports merging configs, prefixing, priority, etc.
-URL: https://github.com/knadh/koanf
+Alternatively, you can use the task runner:
 
-7. Database Migrations
+```bash
+task run
+```
 
-tern – SQL migration tool by JackC (the same author as pgx). Supports templating and version control for migrations.
-URL: https://github.com/jackc/tern
+## Testing
 
-8. Unit & Integration Testing
+To run the tests, use the following command in the 'apps/backend' directory:
 
-testify – Provides assertions, mocks, and suite utilities for Go testing.
-URL: https://github.com/stretchr/testify
+```bash
+go test ./...
+```
 
-9. Integration Testing with Containers
+## Linting
 
-testcontainers-go – Allows integration testing using real Docker containers (e.g., running a real Postgres instance instead of mocking).
-URL: https://github.com/testcontainers/testcontainers-go
+This project uses golangci-lint for linting. To run the linter, you'll need to have it installed. Then, run the following command in the 'apps/backend' directory:
 
-10. Task File  - tool for executing tasks from a YAML file (alternative to Makefile)
-- We are building a mono repo, so we can keep frontend and backend in the same repo.
--
+```bash
+golangci-lint run
+```
 
-using npm
-****Commands
-➜  travel_application npm init -y
-curl -fsSL https://bun.sh/install | bash
-➜  travel_application git:(main) ✗ bun add -D turbo typescript
-go mod init github.com/srauf24/go-boilerplate
-brew install go-task/tap/go-task
+## Database Migrations
 
-***Resources
-- standard go project layout https://github.com/golang-standards/project-layout
+This project uses 'tern' for database migrations. The migration files are located in 'apps/backend/internal/database/migrations'.
+
+### Create a new migration
+
+To create a new migration file, run the following command in the 'apps/backend' directory, replacing 'migration_name' with a descriptive name for your migration:
+
+```bash
+task migrations:new name=migration_name
+```
+
+### Apply migrations
+
+To apply all "up" migrations, you need to set the 'BOILERPLATE_DB_DSN' environment variable with your database connection string. Then, run the following command in the 'apps/bckend' directory:
+
+```bash
+task migrations:up
+```
+
+You will be prompted for confirmation before the migrations are applied.
+
+## Formatting and Tidying
+
+To format all `.go` files, and tidy and vendor module dependencies, run the following command in the 'apps/backend' directory:
+
+```bash
+task tidy
+```
