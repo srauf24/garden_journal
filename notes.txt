@@ -1,0 +1,56 @@
+1. Framework / Routing
+
+Echo – Fast, minimalist web framework for routing, middleware, and error handling.
+URL: https://echo.labstack.com/
+
+2. PostgreSQL Driver
+
+pgx – Pure Go Postgres driver and toolkit. Can be used directly or through database/sql.
+URL: https://github.com/jackc/pgx
+
+3. Logging
+
+zerolog – Zero-allocation, structured logging library for high-performance Go applications.
+URL: https://github.com/rs/zerolog
+
+4. Observability / Monitoring
+
+New Relic Go Agent – Provides instrumentation for Go apps, tracking performance, DB calls, and metrics.
+URL: https://github.com/newrelic/go-agent
+
+5. Validation
+
+validator (go-playground/validator) – Popular validation library for struct and field validation across handler layers.
+URL: https://github.com/go-playground/validator
+
+6. Configuration Management
+
+koanf – Lightweight configuration library (alternative to Viper). Supports merging configs, prefixing, priority, etc.
+URL: https://github.com/knadh/koanf
+
+7. Database Migrations
+
+tern – SQL migration tool by JackC (the same author as pgx). Supports templating and version control for migrations.
+URL: https://github.com/jackc/tern
+
+8. Unit & Integration Testing
+
+testify – Provides assertions, mocks, and suite utilities for Go testing.
+URL: https://github.com/stretchr/testify
+
+9. Integration Testing with Containers
+
+testcontainers-go – Allows integration testing using real Docker containers (e.g., running a real Postgres instance instead of mocking).
+URL: https://github.com/testcontainers/testcontainers-go
+
+
+- We are building a mono repo, so we can keep frontend and backend in the same repo.
+
+using npm
+****Commands
+➜  travel_application npm init -y
+curl -fsSL https://bun.sh/install | bash
+➜  travel_application git:(main) ✗ bun add -D turbo typescript
+
+***Resources
+- standard go project layout https://github.com/golang-standards/project-layout
