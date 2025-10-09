@@ -1,6 +1,6 @@
-# Notes for go-boilerplate backend
+# Notes for gardenjournal backend
 
-This file contains a list of useful commands for working with the Go backend of the go-boilerplate project.
+This file contains a list of useful commands for working with the Go backend of the gardenjournal project.
 
 ## Dependencies
 
@@ -23,7 +23,7 @@ go build ./...
 To run the application, use the following command in the 'apps/backend' directory:
 
 ```bash
-go run ./cmd/go-boilerplate
+go run ./cmd/gardenjournal
 ```
 
 Alternatively, you can use the task runner:
@@ -62,7 +62,7 @@ task migrations:new name=migration_name
 
 ### Apply migrations
 
-To apply all "up" migrations, you need to set the 'BOILERPLATE_DB_DSN' environment variable with your database connection string. Then, run the following command in the 'apps/bckend' directory:
+To apply all "up" migrations, you need to set the 'gardenjournal_DB_DSN' environment variable with your database connection string. Then, run the following command in the 'apps/bckend' directory:
 
 ```bash
 task migrations:up
@@ -77,3 +77,7 @@ To format all `.go` files, and tidy and vendor module dependencies, run the foll
 ```bash
 task tidy
 ```
+
+bun install
+bun dev - builds a couple of things
+bun clean
