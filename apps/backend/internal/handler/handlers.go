@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/srauf24/go-boilerplate/internal/server"
-	"github.com/srauf24/go-boilerplate/internal/service"
+	"github.com/srauf24/gardenjournal/internal/server"
+	"github.com/srauf24/gardenjournal/internal/service"
 )
 
 type Handlers struct {

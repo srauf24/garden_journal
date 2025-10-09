@@ -1,4 +1,4 @@
-module github.com/srauf24/go-boilerplate
+module github.com/srauf24/gardenjournal
 
 go 1.24.5
 

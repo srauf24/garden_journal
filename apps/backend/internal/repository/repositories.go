@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/srauf24/go-boilerplate/internal/server"
+import "github.com/srauf24/gardenjournal/internal/server"
 
 type Repositories struct{}
 

@@ -8,14 +8,14 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/srauf24/go-boilerplate/internal/config"
-	"github.com/srauf24/go-boilerplate/internal/database"
-	"github.com/srauf24/go-boilerplate/internal/handler"
-	"github.com/srauf24/go-boilerplate/internal/logger"
-	"github.com/srauf24/go-boilerplate/internal/repository"
-	"github.com/srauf24/go-boilerplate/internal/router"
-	"github.com/srauf24/go-boilerplate/internal/server"
-	"github.com/srauf24/go-boilerplate/internal/service"
+	"github.com/srauf24/gardenjournal/internal/config"
+	"github.com/srauf24/gardenjournal/internal/database"
+	"github.com/srauf24/gardenjournal/internal/handler"
+	"github.com/srauf24/gardenjournal/internal/logger"
+	"github.com/srauf24/gardenjournal/internal/repository"
+	"github.com/srauf24/gardenjournal/internal/router"
+	"github.com/srauf24/gardenjournal/internal/server"
+	"github.com/srauf24/gardenjournal/internal/service"
 )
 
 const DefaultContextTimeout = 30

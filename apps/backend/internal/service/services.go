@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/srauf24/go-boilerplate/internal/lib/job"
-	"github.com/srauf24/go-boilerplate/internal/repository"
-	"github.com/srauf24/go-boilerplate/internal/server"
+	"github.com/srauf24/gardenjournal/internal/lib/job"
+	"github.com/srauf24/gardenjournal/internal/repository"
+	"github.com/srauf24/gardenjournal/internal/server"
 )
 
 type Services struct {

@@ -5,10 +5,10 @@ import (
 
 	"github.com/labstack/echo/v4"
 	echoMiddleware "github.com/labstack/echo/v4/middleware"
-	"github.com/srauf24/go-boilerplate/internal/handler"
-	"github.com/srauf24/go-boilerplate/internal/middleware"
-	"github.com/srauf24/go-boilerplate/internal/server"
-	"github.com/srauf24/go-boilerplate/internal/service"
+	"github.com/srauf24/gardenjournal/internal/handler"
+	"github.com/srauf24/gardenjournal/internal/middleware"
+	"github.com/srauf24/gardenjournal/internal/server"
+	"github.com/srauf24/gardenjournal/internal/service"
 	"golang.org/x/time/rate"
 )
 
