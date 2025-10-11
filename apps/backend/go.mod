@@ -14,7 +14,7 @@ require (
 	github.com/knadh/koanf/providers/env v1.1.0
 	github.com/knadh/koanf/v2 v2.2.2
 	github.com/labstack/echo/v4 v4.13.4
-	github.com/newrelic/go-agent/v3 v3.40.1
+	github.com/newrelic/go-agent/v3 v3.41.0
 	github.com/newrelic/go-agent/v3/integrations/logcontext-v2/zerologWriter v1.0.4
 	github.com/newrelic/go-agent/v3/integrations/nrecho-v4 v1.1.4
 	github.com/newrelic/go-agent/v3/integrations/nrpgx5 v1.3.1

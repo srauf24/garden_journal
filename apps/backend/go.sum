@@ -162,6 +162,8 @@ github.com/morikuni/aec v1.0.0/go.mod h1:BbKIizmSmc5MMPqRYbxO4ZU0S0+P200+tUnFx7P
 github.com/newrelic/go-agent/v3 v3.0.0/go.mod h1:H28zDNUC0U/b7kLoY4EFOhuth10Xu/9dchozUiOseQQ=
 github.com/newrelic/go-agent/v3 v3.40.1 h1:8nb4R252Fpuc3oySvlHpDwqySqaPWL5nf7ZVEhqtUeA=
 github.com/newrelic/go-agent/v3 v3.40.1/go.mod h1:X0TLXDo+ttefTIue1V96Y5seb8H6wqf6uUq4UpPsYj8=
+github.com/newrelic/go-agent/v3 v3.41.0 h1:kc1Y8HRe1sZe5/ZkgOYIsClo1Jc+2fcdJ4+NlrxDmSg=
+github.com/newrelic/go-agent/v3 v3.41.0/go.mod h1:sCgxDCVydoKD/C4S8BFxDtmFHvdWHtaIz/a3kiyNB/k=
 github.com/newrelic/go-agent/v3/integrations/logcontext-v2/nrwriter v1.0.1 h1:toG3gbzYlm9LxL6KFbfykVHk8RXivM7OD2hmqJG7bpY=
 github.com/newrelic/go-agent/v3/integrations/logcontext-v2/nrwriter v1.0.1/go.mod h1:7N1iAritq/sxgJ8Cbak13iQeQdVZS+wFyoRSMGXGksg=
 github.com/newrelic/go-agent/v3/integrations/logcontext-v2/zerologWriter v1.0.4 h1:AsrvW54o1KRptIoxA+66igDzqKHvaeBpFFlOaQ42G2U=
