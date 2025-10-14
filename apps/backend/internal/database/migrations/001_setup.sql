@@ -19,8 +19,11 @@ BEGIN
     RETURN result;
 END;
 $$;
+-- input ex. first_name, output ex. firstName
+-- database schema will be like first_name; but when sending to frontend in json it will be firstName camelCase
 
 -- Create updated_at trigger function
+-- update time stamp on row update
 CREATE OR REPLACE FUNCTION trigger_set_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -29,4 +32,3 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- database schema will be like first_name; but when sending to frontend in json it will be firstName camelCase
