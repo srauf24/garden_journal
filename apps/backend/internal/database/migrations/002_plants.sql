@@ -1,3 +1,55 @@
+-- +migrate Up
+-- Create all base tables for Garden Journal MVP
+
+-- ========== PLANTS TABLE ==========
+CREATE TABLE plants (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    user_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    species TEXT NOT NULL,
+    location TEXT,
+    planted_date TIMESTAMPTZ,
+    notes TEXT,
+    metadata JSONB,
+    sort_order SERIAL
+);
+
+-- ========== OBSERVATIONS TABLE ==========
+CREATE TABLE observations (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    user_id TEXT NOT NULL,
+    plant_id UUID NOT NULL REFERENCES plants(id) ON DELETE CASCADE,
+    date TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    height_cm DECIMAL CHECK (height_cm >= 0),
+    notes TEXT,
+    sort_order SERIAL
+);
+
+-- ========== WEATHER SNAPSHOTS TABLE ==========
+CREATE TABLE weather_snapshots (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    date TIMESTAMPTZ NOT NULL,
+    city TEXT NOT NULL,
+    latitude DOUBLE PRECISION NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
+    temp_max REAL,
+    precip_mm REAL,
+    sunshine_hrs REAL
+);
+
+-- ========== INDEXES ==========
+CREATE UNIQUE INDEX plants_unique_name_per_user ON plants(user_id, name);
+CREATE INDEX idx_plants_user_id ON plants(user_id);
+CREATE INDEX idx_plants_user_sort ON plants(user_id, sort_order);
+CREATE INDEX idx_observations_plant_sort ON observations(plant_id, sort_order);
+CREATE INDEX idx_observations_user_plant_date_desc
+    ON observations(user_id, plant_id, date DESC);
+
+-- ========== TRIGGERS ==========
 CREATE OR REPLACE FUNCTION trigger_set_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -6,77 +58,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- --- Plants Table ---
-CREATE TABLE plants (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    user_id TEXT NOT NULL,                 -- Foreign key to the user who owns the plant.
-    name TEXT NOT NULL,                    -- The name given to the plant by the user.
-    species TEXT NOT NULL,                 -- The species of the plant.
-    location TEXT,                         -- Where the plant is located (e.g., "living room", "garden").
-    planted_date TIMESTAMPTZ,              -- The date the plant was planted.
-    notes TEXT                             -- Optional field for general notes.
-);
-
--- Indexes for plants
-CREATE INDEX idx_plants_user_id ON plants(user_id);
-CREATE UNIQUE INDEX plants_unique_name_per_user ON plants(user_id, name);
-
--- Trigger for plants
 CREATE TRIGGER set_updated_at_plants
     BEFORE UPDATE ON plants
     FOR EACH ROW
     EXECUTE FUNCTION trigger_set_updated_at();
 
--- --- Weather Snapshots Table ---
-CREATE TABLE weather_snapshots (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    date TIMESTAMPTZ NOT NULL,             -- The date of the weather snapshot.
-    city TEXT NOT NULL,                    -- The city for which the weather data was recorded.
-    latitude DOUBLE PRECISION NOT NULL,    -- The latitude of the location.
-    longitude DOUBLE PRECISION NOT NULL,   -- The longitude of the location.
-    temp_max REAL,                         -- The maximum temperature for the day.
-    precip_mm REAL,                        -- The amount of precipitation in millimeters.
-    sunshine_hrs REAL                      -- The number of hours of sunshine.
-);
-
--- Indexes for weather_snapshots
-CREATE INDEX idx_weather_snapshots_city_date ON weather_snapshots(city, date);
-CREATE INDEX idx_weather_snapshots_lat_long ON weather_snapshots(latitude, longitude);
-
--- --- Observations Table ---
-CREATE TABLE observations (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    user_id TEXT NOT NULL,                                   -- Foreign key to the user who made the observation.
-    plant_id UUID NOT NULL REFERENCES plants(id) ON DELETE CASCADE,  -- The plant being observed.
-    weather_snapshot_id UUID REFERENCES weather_snapshots(id) ON DELETE SET NULL,  -- Optional link to weather.
-    date TIMESTAMPTZ NOT NULL,                               -- The date of the observation.
-    height_cm REAL,                                          -- The height of the plant in centimeters.
-    notes TEXT                                               -- Any notes about the observation.
-);
-
--- Indexes for observations
-CREATE INDEX idx_observations_user_id ON observations(user_id);
-CREATE INDEX idx_observations_plant_date ON observations(plant_id, date);
-CREATE INDEX idx_observations_weather_snapshot_id ON observations(weather_snapshot_id);
-
--- Trigger for observations
 CREATE TRIGGER set_updated_at_observations
     BEFORE UPDATE ON observations
     FOR EACH ROW
     EXECUTE FUNCTION trigger_set_updated_at();
 
--- --- Constraints & Enhancements ---
--- Prevent duplicate observations for the same plant on the same date
-ALTER TABLE observations
-ADD CONSTRAINT unique_plant_observation_per_day UNIQUE (plant_id, date);
+-- +migrate Down
+DROP TRIGGER IF EXISTS set_updated_at_observations ON observations;
+DROP TRIGGER IF EXISTS set_updated_at_plants ON plants;
+DROP FUNCTION IF EXISTS trigger_set_updated_at();
 
--- Optional composite index for quick retrieval by user/date
-CREATE INDEX idx_observations_user_date ON observations(user_id, date);
+DROP INDEX IF EXISTS idx_observations_user_plant_date_desc;
+DROP INDEX IF EXISTS idx_observations_plant_sort;
+DROP INDEX IF EXISTS idx_plants_user_sort;
+DROP INDEX IF EXISTS idx_plants_user_id;
+DROP INDEX IF EXISTS plants_unique_name_per_user;
+
+DROP TABLE IF EXISTS weather_snapshots CASCADE;
+DROP TABLE IF EXISTS observations CASCADE;
+DROP TABLE IF EXISTS plants CASCADE;
