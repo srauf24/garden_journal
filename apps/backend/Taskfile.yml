@@ -1,7 +1,7 @@
 version: '3'
 
 vars:
-  gardenjournal_DB_DSN: '{{.gardenjournal_DB_DSN | default ""}}'
+  GARDENJOURNAL_DB_DSN: '{{.GARDENJOURNAL_DB_DSN | default ""}}'
 
 tasks:
   help:
@@ -41,8 +41,8 @@ tasks:
     desc: apply all up database migrations
     deps: [ confirm ]
     cmds:
-    - echo 'Running up migrations...'
-    - tern migrate -m ./internal/database/migrations --conn-string {{.gardenjournal_DB_DSN}}
+    - echo 'Connecting with DSN {{.GARDENJOURNAL_DB_DSN}}'
+    - tern migrate -m ./internal/database/migrations --conn-string {{.GARDENJOURNAL_DB_DSN}}
 
   tidy:
     desc: format all .go files, and tidy and vendor module dependencies
