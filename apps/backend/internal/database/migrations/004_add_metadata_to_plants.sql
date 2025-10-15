@@ -1,0 +1,2 @@
+ALTER TABLE plants 
+ADD COLUMN metadata JSONB
