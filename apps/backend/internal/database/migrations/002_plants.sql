@@ -3,7 +3,7 @@
 
 -- ========== PLANTS TABLE ==========
 CREATE TABLE plants (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     user_id TEXT NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE plants (
 
 -- ========== OBSERVATIONS TABLE ==========
 CREATE TABLE observations (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     user_id TEXT NOT NULL,
@@ -67,18 +67,3 @@ CREATE TRIGGER set_updated_at_observations
     BEFORE UPDATE ON observations
     FOR EACH ROW
     EXECUTE FUNCTION trigger_set_updated_at();
-
--- +migrate Down
-DROP TRIGGER IF EXISTS set_updated_at_observations ON observations;
-DROP TRIGGER IF EXISTS set_updated_at_plants ON plants;
-DROP FUNCTION IF EXISTS trigger_set_updated_at();
-
-DROP INDEX IF EXISTS idx_observations_user_plant_date_desc;
-DROP INDEX IF EXISTS idx_observations_plant_sort;
-DROP INDEX IF EXISTS idx_plants_user_sort;
-DROP INDEX IF EXISTS idx_plants_user_id;
-DROP INDEX IF EXISTS plants_unique_name_per_user;
-
-DROP TABLE IF EXISTS weather_snapshots CASCADE;
-DROP TABLE IF EXISTS observations CASCADE;
-DROP TABLE IF EXISTS plants CASCADE;
