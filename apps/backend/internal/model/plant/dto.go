@@ -96,11 +96,6 @@ func (p *GetPlantsStatsPayload) Validate() error {
     return nil
 }
 
-
-
-func (p *PlantResponse) Validate() error {
-    validate:= validator.New()
-    return validate.Struct(p)
 }
 // `*uuid.UUID`
 //     - The `*` means it's a pointer to a UUID object
