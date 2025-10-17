@@ -58,3 +58,7 @@ type Metadata struct {
 	// Future Expansion (AI Insights, Summaries)
 	AIInsightSummary *string `json:"aiInsightSummary"`
 }
+// 1.
+//     - The table columns match the `Plant` struct fields `plants`
+//     - `JSONB` type for metadata correctly maps to `*plant.Metadata`
+//     - All nullable columns (`location`, , `notes`) correctly use pointer types in Go `planted_date`
