@@ -1,68 +1,224 @@
-#%% md
-## AI Assistant
-Garden Journal - A production-ready monorepo application for managing plant care and garden tracking, built with Go and TypeScript.
+#  Garden Journal Project Context
 
-## Me
-/init
+##  Project Overview
+**Garden Journal** is a modern web application for plant care and garden management built with **Go (backend)** and **TypeScript/React (frontend)**.  
+It follows a **monorepo architecture** using **Turborepo** for efficient builds and development workflow.
 
-## AI Assistant
-I understand you want to initialize or start a new project. Let me help you explore the current project structure first. Let me help you explore the project structure. I see this is a monorepo project with the following main components:
+---
 
-1. **Apps directory** - Contains two main applications:
-   - `backend/` - Go-based REST API
-   - `frontend/` - TypeScript/React web application
-2. **Packages directory** - Shared libraries and components
-3. **Configuration files**:
-   - `package.json` - Node.js project configuration
-   - `turbo.json` - Turborepo configuration for monorepo management
-   - `bun.lock` - Dependency lock file using Bun package manager
+## ⚙ Technical Stack
 
-The project uses modern technology stack:
-- Go 1.24+ for backend
-- TypeScript/React for frontend
-- PostgreSQL 16+ for database
-- Redis 8+ for background jobs
-- Clerk for authentication
-- New Relic for monitoring
-- Resend for email services
+### 🐹 Backend (Go)
+- **Go 1.24+**
+- **Echo** framework for REST API
+- **PostgreSQL 16+** with connection pooling
+- **Redis 8+** for background jobs
+- **Clerk SDK** for authentication
+- **New Relic** for APM
+- **Resend** for email services
 
-Would you like me to:
-1. Explore the frontend application structure
-2. Explore the backend application structure
-3. Look at shared packages
-4. Check the specific files or areas you're interested in
+### ⚛ Frontend (TypeScript / React)
+- **React 19.1.0**
+- **TypeScript 5.8.2**
+- **Vite 7.0.4**
+- **TanStack Query** for data fetching
+- **Clerk** for authentication
+- **Tailwind CSS** for styling
+- **React Router** for navigation
 
-What would you like to explore first?
+---
 
-## Me
-2. Explore the backend application structure
+## 🏗 Architecture
 
-## AI Assistant
-Let me explore the backend application structure. The backend is a well-structured Go application following clean architecture principles. Here's the key structure:
+###  Backend Structure
+```bash
+apps/backend/
+├── cmd/            # Application entry points
+├── internal/       # Private application code
+│   ├── config/        # Configuration management
+│   ├── database/      # Database connections and migrations
+│   ├── handler/       # HTTP request handlers
+│   ├── service/       # Business logic layer
+│   ├── repository/    # Data access layer
+│   ├── model/         # Domain models
+│   ├── middleware/    # HTTP middleware
+│   ├── validation/    # Request validation
+│   └── lib/           # Shared utilities
+├── templates/      # Email templates
+├── static/         # Static files
+└── tests/          # Test suites
+````
 
-T### Key Features:
+###  Key Backend Features
 
-1. **Configuration Management**:
-   - Environment-based configuration using `koanf`
-   - Structured config validation
-   - Support for multiple environments (local, dev, prod)
+1. **Configuration Management**
 
-2. **Database Integration**:
-   - PostgreSQL with connection pooling
-   - Configurable connection settings
-   - Migration support
+   * Environment-based configuration using Koanf
+   * Structured validation
+   * Support for multiple environments
 
-3. **Security & Auth**:
-   - Clerk SDK integration
-   - JWT validation
-   - CORS configuration
-   - Rate limiting
+2. **Database Layer**
 
-4. **Background Processing**:
-   - Redis integration for async jobs
-   - Configurable connection settings
+   * PostgreSQL with connection pooling
+   * Migration system using `tern`
+   * Configurable connection settings
 
-5. **Observability**:
-   - New Relic APM integration
-   - Structured logging with zerolog
-   - Configurable monitoring settings
+3. **Authentication & Security**
+
+   * Clerk SDK integration
+   * JWT validation
+   * CORS configuration
+   * Rate limiting
+   * Secure headers
+
+4. **Background Processing**
+
+   * Redis-based job queue
+   * Async task processing
+   * Email notifications
+
+5. **Observability**
+
+   * New Relic APM integration
+   * Structured logging (`zerolog`)
+   * Health checks
+   * Performance monitoring
+
+---
+
+###  Frontend Structure
+
+```bash
+apps/frontend/
+├── src/
+│   ├── components/   # Reusable UI components
+│   ├── features/     # Feature-specific code
+│   ├── hooks/        # Custom React hooks
+│   ├── pages/        # Route pages
+│   ├── api/          # API integration
+│   ├── utils/        # Utility functions
+│   └── styles/       # Global styles
+└── tests/            # Frontend tests
+```
+
+---
+
+##  Development Workflow
+
+###  Backend Development
+
+1. **Environment Setup**
+
+   ```bash
+   cd apps/backend
+   go mod download
+   cp .env.example .env
+   ```
+
+2. **Database Management**
+
+   ```bash
+   task migrations:new name=<migration_name>  # Create migration
+   task migrations:up                         # Apply migrations
+   ```
+
+3. **Running the Server**
+
+   ```bash
+   task run    # Start server
+   task test   # Run tests
+   task tidy   # Format and tidy
+   ```
+
+### ⚛ Frontend Development
+
+1. **Setup**
+
+   ```bash
+   bun install
+   ```
+
+2. **Development**
+
+   ```bash
+   bun dev     # Start dev server
+   bun build   # Production build
+   bun lint    # Run linter
+   ```
+
+---
+
+##  API Integration
+
+* REST API with **OpenAPI/Swagger specification**
+* Type-safe API client using **ts-rest**
+* Automatic type generation from OpenAPI specs
+* Request/response validation
+* Error handling with retries
+
+---
+
+##  Testing Strategy
+
+### Backend
+
+* Unit tests for business logic
+* Integration tests with **testcontainers**
+* API endpoint tests
+* Performance benchmarks
+
+### Frontend
+
+* Component tests with **React Testing Library**
+* Integration tests
+* E2E tests with **Cypress**
+
+---
+
+##  Deployment & Operations
+
+1. **Environment Configuration**
+
+   * Environment-specific settings
+   * Secret management
+   * Feature flags
+
+2. **Monitoring**
+
+   * APM with New Relic
+   * Error tracking
+   * Performance monitoring
+   * Log aggregation
+
+3. **Security**
+
+   * Authentication with Clerk
+   * Authorization middleware
+   * Input validation
+   * Rate limiting
+   * CORS policies
+
+---
+
+##  Future Considerations
+
+1. **Scalability**
+
+   * Horizontal scaling of API
+   * Caching strategies
+   * Database optimization
+
+2. **Feature Enhancements**
+
+   * Real-time updates
+   * Mobile responsiveness
+   * Offline support
+   * Data export/import
+
+3. **Integrations**
+
+   * Weather API integration
+   * Plant database
+   * Image recognition
+   * Social sharing
+
