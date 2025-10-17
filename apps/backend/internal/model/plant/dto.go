@@ -73,11 +73,11 @@ func (q *GetPlantsQuery) Validate() error {
 
 	return nil
 
-type GetPlanByIDPayload struct {
+type GetPlantByIDPayload struct {
     ID uuid.UUID `param:"id" validate:"required,uuid"`
 }
 
-func (p *GetPlanByIDPayload) Validate() error {
+func (p *GetPlantsByIDPayload) Validate() error {
     validate:= validator.New()
     return validate.Struct(p)
 }
