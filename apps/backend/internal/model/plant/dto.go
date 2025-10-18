@@ -97,25 +97,3 @@ func (p *GetPlantsStatsPayload) Validate() error {
 }
 
 }
-// `*uuid.UUID`
-//     - The `*` means it's a pointer to a UUID object
-//     - is a unique identifier type `uuid.UUID`
-//     - Being a pointer means it can be `nil` (null)
-//     - Used when the UUID is optional in the data structure
-
-// `string`:
-//     - Regular string type in Go
-//     - Non-pointer means it must have a value
-//     - Used when the field is required
-
-// *string,
- // Pointer to a string
-//     - Used when the string field is optional
-//     - Example: A description field that might be empty
-
-// `*plant.Metadata`
-//     - Pointer to a custom `Metadata` struct from the `plant` package
-//     - Used for optional nested data structures
-// `time.Time`:
-// - A value type representing a specific point in time
-// - Non-pointer means it must have a value (cannot be nil)
