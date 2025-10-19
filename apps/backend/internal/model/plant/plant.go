@@ -58,3 +58,6 @@ type Metadata struct {
 	// Future Expansion (AI Insights, Summaries)
 	AIInsightSummary *string `json:"aiInsightSummary"`
 }
+
+
+//Future: add a populated Plant DTO when the UI starts needing richer, nested data (e.g., observations with weather snapshots).
