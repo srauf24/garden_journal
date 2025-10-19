@@ -103,3 +103,30 @@ func (r *PlantRepository) GetPlantByID(ctx context.Context, userID string, plant
 
 	return &plantItem, nil
 }
+
+func (p *PlantRepository) CheckPlantExists(ctx context.Context, userID string, plantID uuid.UUID) (*plant.Plant, error) {
+	stmt := `
+		SELECT
+			*
+		FROM
+			plants
+		WHERE
+			id = @plant_id
+			AND user_id = @user_id
+	`
+
+	rows, err := p.server.DB.Pool.Query(ctx, stmt, pgx.NamedArgs{
+		"plant_id": plantID,
+		"user_id":  userID,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to check if plant exists for plant_id=%s user_id=%s: %w", plantID.String(), userID, err)
+	}
+
+	plantItem, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[plant.Plant])
+	if err != nil {
+		return nil, fmt.Errorf("failed to collect row from table:plants for plant_id=%s user_id=%s: %w", plantID.String(), userID, err)
+	}
+
+	return &plantItem, nil
+}
