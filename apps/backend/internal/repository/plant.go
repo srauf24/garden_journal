@@ -6,7 +6,7 @@ type PlantRepository struct {
     server *server.Server
 }
 
-func NewPlantRepository(s *server.Server) *PlantRepository {
+func NewPlantRepository(server *server.Server) *PlantRepository {
     return &PlantRepository{server: server}
 }
 func (r * PlantRepository) CreatePlant(ctx context.Context, userID string, payload *plant.CreatePlantPayload) (*plant.Plant, error) {
