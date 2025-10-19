@@ -27,7 +27,7 @@ type Observation struct {
 	Notes    *string    `json:"notes" db:"notes"`
 	SortOrder int       `json:"sortOrder" db:"sort_order"` // keep only if not in Base
 }
-// PopulatedPlant is the “rich” DTO for list/detail responses.
+// PopulatedPlant is the “rich” DTO for list/detail responses. Can add weather observation etc in the future
 type PopulatedPlant struct {
 	Plant
 	Observations []Observation `json:"observations" db:"observations"`

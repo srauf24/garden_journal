@@ -44,8 +44,8 @@ type GetPlantsQuery struct {
     Search        *string    `query:"search" validate:"omitempty,min=1"`
     Species       *string    `query:"species" validate:"omitempty,min=1"`
     Location      *string    `query:"location" validate:"omitempty,min=1"`
-    PlantedFrom   *time.Time `query:"plantedFrom"`
-    PlantedTo     *time.Time `query:"plantedTo"`
+    PlantedFrom *time.Time `query:"plantedFrom"` // filter p.planted_date >= @planted_from
+	PlantedTo   *time.Time `query:"plantedTo"`   // filter p.planted_date <= @planted_to
 }
 func (q *GetPlantsQuery) Validate() error {
     validate:= validator.New()
