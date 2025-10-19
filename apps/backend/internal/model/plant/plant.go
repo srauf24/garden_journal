@@ -6,24 +6,32 @@ import (
 	"github.com/google/uuid"
 	"github.com/srauf24/gardenjournal/internal/model"
 )
-
-// Plant represents a single tracked plant record.
-// Nullable values are represented with pointer types.
-//   - `json` tags define how the struct is serialized when communicating with the frontend/API
-//   - `db` tags define how the struct maps to the database columns in PostgreSQL
-//     (used by the SQL driver for reading/writing data)
 type Plant struct {
-	model.Base
-	ID          uuid.UUID  `json:"id" db:"id"`
-	UserID      string     `json:"userID" db:"user_id"`
-	Name        Name       `json:"name" db:"name"`
-	Species     Species    `json:"species" db:"species"`
-	Location    *string    `json:"location" db:"location"`
-	PlantedDate *time.Time `json:"plantedDate" db:"planted_date"`
-	Notes       *string    `json:"notes" db:"notes"`
-	Metadata    *Metadata  `json:"metadata" db:"metadata"`
-	SortOrder   int        `json:"sortOrder" db:"sort_order"`
+	model.Base                 // expects fields like ID, CreatedAt, UpdatedAt (and/or SortOrder if your Base includes it)
+	UserID      string         `json:"userId" db:"user_id"`
+	Name        string         `json:"name" db:"name"`
+	Species     string         `json:"species" db:"species"`
+	Location    *string        `json:"location" db:"location"`
+	PlantedDate *time.Time     `json:"plantedDate" db:"planted_date"`
+	Notes       *string        `json:"notes" db:"notes"`
+	Metadata    json.RawMessage`json:"metadata" db:"metadata"`
+	SortOrder   int            `json:"sortOrder" db:"sort_order"` // keep only if not already in model.Base
 }
+// Observation rows map 1:1 to the `observations` table.
+type Observation struct {
+	model.Base
+	UserID   string     `json:"userId" db:"user_id"`
+	PlantID  uuid.UUID  `json:"plantId" db:"plant_id"`
+	Date     time.Time  `json:"date" db:"date"`
+	HeightCM *float64   `json:"heightCm" db:"height_cm"`
+	Notes    *string    `json:"notes" db:"notes"`
+	SortOrder int       `json:"sortOrder" db:"sort_order"` // keep only if not in Base
+}
+// PopulatedPlant is the “rich” DTO for list/detail responses.
+type PopulatedPlant struct {
+	Plant
+	Observations []Observation `json:"observations" db:"observations"`
+
 
 // Metadata holds additional, optional properties about a plant.
 // Stored as JSONB in the database, allowing flexible enrichment
