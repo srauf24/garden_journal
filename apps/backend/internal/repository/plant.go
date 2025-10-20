@@ -1,6 +1,7 @@
 package repository
 
 import "github.com/srauf24/gardenjournal/internal/server"
+import "github.com/srauf24/gardenjournal/internal/model/plant"
 
 type PlantRepository struct {
     server *server.Server
