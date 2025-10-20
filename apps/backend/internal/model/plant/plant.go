@@ -5,6 +5,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/srauf24/gardenjournal/internal/model"
+	"github.com/srauf24/gardenjournal/internal/model/observation"
+
 )
 type Plant struct {
 	model.Base                 // expects fields like ID, CreatedAt, UpdatedAt (and/or SortOrder if your Base includes it)
@@ -17,20 +19,11 @@ type Plant struct {
 	Metadata    json.RawMessage`json:"metadata" db:"metadata"`
 	SortOrder   int            `json:"sortOrder" db:"sort_order"` // keep only if not already in model.Base
 }
-// Observation rows map 1:1 to the `observations` table.
-type Observation struct {
-	model.Base
-	UserID   string     `json:"userId" db:"user_id"`
-	PlantID  uuid.UUID  `json:"plantId" db:"plant_id"`
-	Date     time.Time  `json:"date" db:"date"`
-	HeightCM *float64   `json:"heightCm" db:"height_cm"`
-	Notes    *string    `json:"notes" db:"notes"`
-	SortOrder int       `json:"sortOrder" db:"sort_order"` // keep only if not in Base
-}
+
 // PopulatedPlant is the “rich” DTO for list/detail responses. Can add weather observation etc in the future
 type PopulatedPlant struct {
 	Plant
-	Observations []Observation `json:"observations" db:"observations"`
+	Observations []observation.Observation `json:"observations" db:"observations"`
 
 
 // Metadata holds additional, optional properties about a plant.
