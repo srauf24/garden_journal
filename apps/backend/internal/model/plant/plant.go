@@ -25,10 +25,9 @@ type PopulatedPlant struct {
 	Plant
 	Observations []observation.Observation `json:"observations" db:"observations"`
 
+}
 
 // Metadata holds additional, optional properties about a plant.
-// Stored as JSONB in the database, allowing flexible enrichment
-// without requiring schema migrations.
 type Metadata struct {
 	Tags []string `json:"tags"` // e.g. ["indoor", "succulent"]
 
