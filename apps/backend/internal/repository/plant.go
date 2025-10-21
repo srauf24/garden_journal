@@ -1,7 +1,12 @@
 package repository
-
-import "github.com/srauf24/gardenjournal/internal/server"
-import "github.com/srauf24/gardenjournal/internal/model/plant"
+import (
+	"context"
+	"fmt"
+	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
+	"github.com/srauf24/gardenjournal/internal/model/plant"
+	"github.com/srauf24/gardenjournal/internal/server"
+)
 
 type PlantRepository struct {
     server *server.Server
@@ -10,6 +15,7 @@ type PlantRepository struct {
 func NewPlantRepository(server *server.Server) *PlantRepository {
     return &PlantRepository{server: server}
 }
+// note: typically the service layer translates the DTO to a model which is then used by the repository layer. In this case we are directly using the DTO in the repository layer for simplicity.
 func (r * PlantRepository) CreatePlant(ctx context.Context, userID string, payload *plant.CreatePlantPayload) (*plant.Plant, error) {
 stmt := `
 		INSERT INTO
