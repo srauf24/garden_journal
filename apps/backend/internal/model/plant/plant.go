@@ -6,8 +6,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/srauf24/gardenjournal/internal/model"
 	"github.com/srauf24/gardenjournal/internal/model/observation"
-
 )
+//Represents the row in the database and what we return as JSON to the client
 type Plant struct {
 	model.Base                 // expects fields like ID, CreatedAt, UpdatedAt (and/or SortOrder if your Base includes it)
 	UserID      string         `json:"userId" db:"user_id"`

@@ -8,6 +8,9 @@ import (
 ---------------------
 // CreatePlantRequest needs to match the Plant model's custom types
 // optional fields have omit empty
+
+// Represents the incoming request body from the API (what the user sends when creating a plant) - defines what the user is allowed to send in a POST request.
+//Used in  handler or service layer, right after you parse the JSON request:
 type CreatePlantPayload struct {
     Name        plant.Name      `json:"name" validate:"required,max=100"`
     Species     plant.Species   `json:"species" validate:"required,max=100"`
