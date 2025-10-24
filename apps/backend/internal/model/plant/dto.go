@@ -8,6 +8,9 @@ import (
 ---------------------
 // CreatePlantRequest needs to match the Plant model's custom types
 // optional fields have omit empty
+
+// Represents the incoming request body from the API (what the user sends when creating a plant) - defines what the user is allowed to send in a POST request.
+//Used in  handler or service layer, right after you parse the JSON request:
 type CreatePlantPayload struct {
     Name        plant.Name      `json:"name" validate:"required,max=100"`
     Species     plant.Species   `json:"species" validate:"required,max=100"`
@@ -44,8 +47,8 @@ type GetPlantsQuery struct {
     Search        *string    `query:"search" validate:"omitempty,min=1"`
     Species       *string    `query:"species" validate:"omitempty,min=1"`
     Location      *string    `query:"location" validate:"omitempty,min=1"`
-    PlantedFrom   *time.Time `query:"plantedFrom"`
-    PlantedTo     *time.Time `query:"plantedTo"`
+    PlantedFrom *time.Time `query:"plantedFrom"` // filter p.planted_date >= @planted_from
+	PlantedTo   *time.Time `query:"plantedTo"`   // filter p.planted_date <= @planted_to
 }
 func (q *GetPlantsQuery) Validate() error {
     validate:= validator.New()

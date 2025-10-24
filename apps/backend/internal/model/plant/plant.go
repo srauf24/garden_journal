@@ -5,29 +5,29 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/srauf24/gardenjournal/internal/model"
+	"github.com/srauf24/gardenjournal/internal/model/observation"
 )
-
-// Plant represents a single tracked plant record.
-// Nullable values are represented with pointer types.
-//   - `json` tags define how the struct is serialized when communicating with the frontend/API
-//   - `db` tags define how the struct maps to the database columns in PostgreSQL
-//     (used by the SQL driver for reading/writing data)
+//Represents the row in the database and what we return as JSON to the client
 type Plant struct {
-	model.Base
-	ID          uuid.UUID  `json:"id" db:"id"`
-	UserID      string     `json:"userID" db:"user_id"`
-	Name        Name       `json:"name" db:"name"`
-	Species     Species    `json:"species" db:"species"`
-	Location    *string    `json:"location" db:"location"`
-	PlantedDate *time.Time `json:"plantedDate" db:"planted_date"`
-	Notes       *string    `json:"notes" db:"notes"`
-	Metadata    *Metadata  `json:"metadata" db:"metadata"`
-	SortOrder   int        `json:"sortOrder" db:"sort_order"`
+	model.Base                 // expects fields like ID, CreatedAt, UpdatedAt (and/or SortOrder if your Base includes it)
+	UserID      string         `json:"userId" db:"user_id"`
+	Name        string         `json:"name" db:"name"`
+	Species     string         `json:"species" db:"species"`
+	Location    *string        `json:"location" db:"location"`
+	PlantedDate *time.Time     `json:"plantedDate" db:"planted_date"`
+	Notes       *string        `json:"notes" db:"notes"`
+	Metadata    json.RawMessage`json:"metadata" db:"metadata"`
+	SortOrder   int            `json:"sortOrder" db:"sort_order"` // keep only if not already in model.Base
+}
+
+// PopulatedPlant is the “rich” DTO for list/detail responses. Can add weather observation etc in the future
+type PopulatedPlant struct {
+	Plant
+	Observations []observation.Observation `json:"observations" db:"observations"`
+
 }
 
 // Metadata holds additional, optional properties about a plant.
-// Stored as JSONB in the database, allowing flexible enrichment
-// without requiring schema migrations.
 type Metadata struct {
 	Tags []string `json:"tags"` // e.g. ["indoor", "succulent"]
 
@@ -58,3 +58,6 @@ type Metadata struct {
 	// Future Expansion (AI Insights, Summaries)
 	AIInsightSummary *string `json:"aiInsightSummary"`
 }
+
+
+//Future: add a populated Plant DTO when the UI starts needing richer, nested data (e.g., observations with weather snapshots).
